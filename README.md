@@ -25,6 +25,7 @@ python manage.py collectstatic
 https://medium.com/analytics-vidhya/how-to-use-adminlte-in-django-225359ce8c72
 # From my end
 need connect to postgres database.<br />
+pip install -r requirements.txt <br />
 python manage.py makemigrations<br />
 python manage.py migrate<br />
 python manage.py runserver<br />
