@@ -152,11 +152,13 @@
     }
   </style>
   <body>
-    <h1 style="text-align: center">Swadesh Properties Ltd</h1>
+    <h1 style="text-align: center">
+      Swadesh Properties Ltd this is use for us
+    </h1>
     <div id="map"></div>
 
     <script>
-      var map = L.map("map").setView([23.73626, 90.466523], 7);
+      var map = L.map("map").setView([23.655575, 90.375662], 17);
 
       var osm = L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -208,99 +210,44 @@
 
       osm.addTo(map);
       L.control.layers(baseLayers).addTo(map);
-      // give color using code on this shape file
-      //Geojson style function
-      // function geojsonStyle(feature) {
-      //   return {
-      //     fillColor: getColor(feature.properties.adm1_en),
-      //     weight: 2,
-      //     opacity: 1,
-      //     color: "#5e380f",
-      //     fillOpacity: 0.7,
-      //   };
-      // }
 
-      // //GetColor function
-      // function getColor(adm1_en) {
-      //   if (adm1_en == "Dhaka") {
-      //     return "#008080";
-      //   } else if (adm1_en == "Rajshahi") {
-      //     return "#badd99";
-      //   } else if (adm1_en== "Chittagong") {
-      //     return "#dd99ba";
-      //   }else if (adm1_en == "Sylhet") {
-      //     return "#115CE9";
-      //   } else if (adm1_en== "Khulna") {
-      //     return "#A8A807"; }
-      //     else {
-      //     return "#c69540";
-      //   }
-      // }
-
-      // $.getJSON("{% url 'bangladeshData' %}", function (data) {
-      //     L.geoJSON(data, {
-      //   onEachFeature: function (feature, layer) {
-      //     layer.bindPopup(
-      //       `<h5>District Name: ${feature.properties.adm2_en}</h5><h5>Region name: ${feature.properties.adm1_en}</h5>`
-      //     );
-      //   },style: geojsonStyle,}).addTo(map);
-      // console.log(data);
-
-      // });
-
-      // geoserver request
-
-      // wms layer
-      // for color full map in geoserver
-      var wmsLayer = L.Geoserver.wms("http://localhost:8080/geoserver/wms", {
-        layers: "webgis_101:try101",
-      });
-
-      //wfs layer
-
-      // var wfsLayer = L.Geoserver.wfs("http://localhost:8080/geoserver/wfs", {
-      //   layers: "webgis_101:bangladesh_from_db,webgis_101:housing_Project",
-
-      //   style: {
-      //     color: "black",
-      //     fillOpacity: "0",
-      //     opacity: "0.5",
-      //   },
-      var wfsLayer = L.Geoserver.wfs("http://localhost:8080/geoserver/wfs", {
-        layers: "webgis_101:housing_Project",
-
-        style: {
-          color: "black",
-          fillOpacity: "0",
-          opacity: "0.5",
-        },
-        onEachFeature: function (feature, layer) {
-          // eta speific feature er popup dekhanor jonno
-          if (feature.properties && feature.properties.Plot_No) {
+      $.getJSON("{% url 'sodeshData' %}", function (data) {
+        L.geoJSON(data, {
+          onEachFeature: function (feature, layer) {
             layer.bindPopup(
               `<h4>Public Information</h4>
-      <h5>Plot Number: ${feature.properties.Plot_No}</h5>
-      <h5>Plot Size: ${feature.properties.Katha} katha</h5>
+      <h5>Plot Number: ${feature.properties.plot_No}</h5>
+      <h5>Plot Size: ${feature.properties.katha} katha</h5>
       <h5>Block: </h5>
       <h5><a href="/accounts/login/">Details</a></h5>`
             );
-          }
-        },
+          },
+          style: geojsonStyle,
+        }).addTo(map);
+        console.log(data);
       });
-      wfsLayer.addTo(map);
 
-      //.......
+      //Geojson style function
+      function geojsonStyle(feature) {
+        return {
+          fillColor: getColor(feature.properties.land_cat),
+          weight: 2,
+          opacity: 10,
+          color: "#5e380f",
+          fillOpacity: 0.8,
+        };
+      }
 
-      // for color full image and its legend which is wms layer in geoserver
-      wmsLayer.addTo(map);
-      // var layerLegend = L.Geoserver.legend("http://localhost:8080/geoserver/wms", {
-      //   layers: "webgis_101:try101",
-      //   style: `try104`,
-      // });
-
-      // layerLegend.addTo(map);
-
-      /*Legend specific*/
+      //GetColor function
+      function getColor(land_cat) {
+        if (land_cat == "sold") {
+          return "#F90E0E";
+        } else if (land_cat == "unsold") {
+          return "#2FC711";
+        } else {
+          return "#c69540";
+        }
+      }
       var legend = L.control({ position: "topleft" });
 
       legend.onAdd = function (map) {

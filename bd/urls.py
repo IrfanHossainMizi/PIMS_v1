@@ -5,7 +5,7 @@ from .views import home,index, bangladesh, sodesh,pricing,about_pims, contact
 urlpatterns = [
 
     path('', index, name = 'index'),
-    path('home', home, name = 'index_2'),
+    path('home', home, name = 'home'),
     path('pricing', pricing, name = 'pricing'),
     path('bangladeshData', bangladesh, name='bangladeshData'),
     path('sodeshData', sodesh, name='sodeshData'),

@@ -117,9 +117,6 @@ def index(request):
     return render(request, 'index.html')
 
 
-def home(request):
-
-    return render(request, 'public_data.html')
 
 def  about_pims(request):
     return render(request,'about_PIMS.html')
@@ -133,7 +130,12 @@ def pricing(request):
 
     return render(request, 'pricing.html')
 
-def homeso(request):
+def home(request):
+
+    return render(request, 'public_data.html')
+
+
+def sodesh_home(request):
 
     return render(request, 'home_sodesh.html')
 

@@ -200,13 +200,6 @@
       osm.addTo(map);
       L.control.layers(baseLayers).addTo(map);
 
-      // wms layer
-      // for color full map in geoserver
-      var wmsLayer = L.Geoserver.wms("http://localhost:8080/geoserver/wms", {
-        layers: "webgis_101:try_area_k_housing",
-      });
-      wmsLayer.addTo(map);
-
       $.getJSON("{% url 'sodeshData' %}", function (data) {
         L.geoJSON(data, {
           onEachFeature: function (feature, layer) {
@@ -220,7 +213,7 @@
 
 
       <h5>Plot Area Bigha: ${feature.properties.area_bigha}</h5>
-   
+
       <h5>Father Name: ${feature.properties.father__}</h5>
       <h5>Spouse Name: ${feature.properties.spouse_nam}</h5>
       <h5>Area K: ${feature.properties.area_k}</h5>
@@ -230,9 +223,31 @@
       <h5><a href="../more_infortion/?plot_num=${feature.properties.plot_no}">More Information</a></h5>`
             );
           },
+          style: geojsonStyle,
         }).addTo(map);
         console.log(data);
       });
+      //Geojson style function
+      function geojsonStyle(feature) {
+        return {
+          fillColor: getColor(feature.properties.land_cat),
+          weight: 2,
+          opacity: 10,
+          color: "#5e380f",
+          fillOpacity: 0.8,
+        };
+      }
+
+      //GetColor function
+      function getColor(land_cat) {
+        if (land_cat == "sold") {
+          return "#F90E0E";
+        } else if (land_cat == "unsold") {
+          return "#2FC711";
+        } else {
+          return "#c69540";
+        }
+      }
 
       /*Legend specific*/
       var legend = L.control({ position: "topleft" });
